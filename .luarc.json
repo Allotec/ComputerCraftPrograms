@@ -1,0 +1,5 @@
+{
+  "Lua.runtime.path": [
+    "lua/lua-ls-cc-tweaked/library/"
+  ]
+}

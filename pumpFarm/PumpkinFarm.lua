@@ -32,7 +32,7 @@ end
 function returnBack()
 	turtle.turnRight()
 
-	for i = 1, row_space * 3, 1 do
+	for i = 1, row_space * 4, 1 do
 		turtle.forward()
 	end
 
@@ -43,7 +43,7 @@ function getFarm()
 	print("Farming a row of pumpkins")
 	local right = true
 
-	for i = 1, rows - 1, 1 do
+	for i = 1, rows, 1 do
 		farmRow()
 		turnProperly(right)
 

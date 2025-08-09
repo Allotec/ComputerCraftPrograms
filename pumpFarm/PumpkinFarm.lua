@@ -23,8 +23,10 @@ function farmEverything()
 		getFarm()
 
 		returnBack()
-		for i = 1, height_sep + 1, 1 do
-			turtle.down()
+		if i < farm_above then
+			for i = 1, height_sep + 1, 1 do
+				turtle.down()
+			end
 		end
 	end
 end

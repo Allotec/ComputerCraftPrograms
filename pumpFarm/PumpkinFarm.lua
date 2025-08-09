@@ -1,8 +1,8 @@
 length = 18
 rows = 4
 row_space = 2
-height_sep = 4
-farm_above = 1
+height_sep = 5
+farm_above = 3
 slotcount = 16
 
 pumpkin_name = "minecraft:pumpkin"
@@ -14,7 +14,7 @@ function farmEverything()
 	homeDumpRefuel()
 	local up_amount = height_sep * farm_above
 	print("Farming up " .. up_amount .. " blocks")
-	for i = 1, up_amount + 1, 1 do
+	for i = 1, up_amount, 1 do
 		turtle.up()
 	end
 

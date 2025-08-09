@@ -30,13 +30,13 @@ function farmEverything()
 end
 
 function returnBack()
-	turtle.turnLeft()
+	turtle.turnRight()
 
 	for i = 1, row_space * 3, 1 do
 		turtle.forward()
 	end
 
-	turtle.turnLeft()
+	turtle.turnRight()
 end
 
 function getFarm()

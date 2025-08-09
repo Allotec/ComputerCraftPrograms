@@ -41,20 +41,25 @@ end
 
 function getFarm()
 	print("Farming a row of pumpkins")
-	local right = true
+	local dir = true
 
 	for i = 1, rows, 1 do
 		farmRow()
-		turnProperly(right)
 
-		for i = 1, row_space + 1, 1 do
-			turtle.forward()
+		if i < rows then
+			startNewRow(dir)
 		end
 
-		turnProperly(right)
-
-		right = not right
+		dir = not dir
 	end
+end
+
+function startNewRow(dir)
+	turnProperly(dir)
+	for i = 1, row_space + 1, 1 do
+		turtle.forward()
+	end
+	turnProperly(dir)
 end
 
 function turnProperly(direction)

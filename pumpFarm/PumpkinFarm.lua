@@ -23,7 +23,7 @@ function farmEverything()
 		getFarm()
 
 		returnBack()
-		for i = 1, height_sep, 1 do
+		for i = 1, height_sep + 1, 1 do
 			turtle.down()
 		end
 	end
@@ -32,7 +32,7 @@ end
 function returnBack()
 	turtle.turnRight()
 
-	for i = 1, row_space * 4, 1 do
+	for i = 1, row_space * 4 + 1, 1 do
 		turtle.forward()
 	end
 

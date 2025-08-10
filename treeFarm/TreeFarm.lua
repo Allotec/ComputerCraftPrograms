@@ -432,15 +432,17 @@ function resetleafharvesting()
 end
 
 function hasSaplings()
+	local count = 0
+
 	for i = 1, slotcount do
 		turtle.select(i)
 		local data = turtle.getItemDetail(i)
 		if data ~= nil and data.name == "minecraft:oak_sapling" then
-			return true
+			count = count + data.count
 		end
 	end
 
-	return false
+	return count < 64
 end
 
 function breaktree()
@@ -500,13 +502,13 @@ function breaktree()
 					if turtle.detect() then
 						local success, data1 = turtle.inspect()
 						if success and data1.name == "minecraft:oak_leaves" then
-							has_saplings = true
 							checkFuel()
 
 							local x, y, z = 0, 0, 0 -- starting position is relative origin
 							local facing = (i - 1) % 4 -- calculate facing based on turns
 							-- call our recursive function to break leaves
 							local leafResult = breakoakleavesrecursive(x, y, z, facing, 0)
+							has_saplings = hasSaplings()
 							if leafResult == "restart" then
 								return "restart"
 							end

@@ -145,7 +145,16 @@ function dump()
 		turtle.select(i)
 		local data = turtle.getItemDetail(i)
 		if data ~= nil and data.name ~= "minecraft:charcoal" then
-			turtle.drop(turtle.getItemCount(i))
+			local count = turtle.getItemCount(i)
+			while count > 0 do
+				local ret = turtle.drop(count)
+				if ret == false or ret == 0 then
+					print("Failed to dump items, waiting for chest to be available")
+					sleep(20)
+				else
+					break
+				end
+			end
 		end
 	end
 end

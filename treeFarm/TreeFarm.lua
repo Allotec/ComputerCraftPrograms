@@ -6,8 +6,8 @@ maxsaplings = 64
 
 -- global visited table to track positions we've already checked
 local visited = {}
-local max_depth = 4   -- configurable max exploration depth
-local leafcount = 0   -- track how many leaves we've broken
+local max_depth = 4 -- configurable max exploration depth
+local leafcount = 0 -- track how many leaves we've broken
 local max_leaves = 64 -- stop after breaking this many leaves (configurable)
 
 -- Timer variables
@@ -431,18 +431,22 @@ function resetleafharvesting()
 	leafcount = 0
 end
 
-function hasSaplings()
-	local count = 0
+function shouldGetSaplings()
+	local sapling_count = 0
+	local coal_count = 0
 
 	for i = 1, slotcount do
 		turtle.select(i)
 		local data = turtle.getItemDetail(i)
 		if data ~= nil and data.name == "minecraft:oak_sapling" then
-			count = count + data.count
+			sapling_count = sapling_count + data.count
+		end
+		if data ~= nil and data.name == "minecraft:charcoal" then
+			coal_count = coal_count + data.count
 		end
 	end
 
-	return count < 64
+	return charcoal ~= 0 and sapling_count < maxsaplings
 end
 
 function breaktree()
@@ -466,7 +470,7 @@ function breaktree()
 
 	-- reset the visited table before starting a new tree
 	visited = {}
-	local has_saplings = hasSaplings()
+	local get_saplings = shouldGetSaplings()
 
 	while success and data.name == "minecraft:oak_log" do
 		-- check fuel and refuel if needed before continuing
@@ -496,7 +500,7 @@ function breaktree()
 		elseif moveResult then
 			height = height + 1
 
-			if not has_saplings then
+			if get_saplings then
 				for i = 1, 4 do
 					turtle.turnRight()
 					if turtle.detect() then
@@ -508,7 +512,7 @@ function breaktree()
 							local facing = (i - 1) % 4 -- calculate facing based on turns
 							-- call our recursive function to break leaves
 							local leafResult = breakoakleavesrecursive(x, y, z, facing, 0)
-							has_saplings = hasSaplings()
+							get_saplings = shouldGetSaplings()
 							if leafResult == "restart" then
 								return "restart"
 							end
@@ -630,10 +634,10 @@ function verifyHomePosition()
 
 	-- If any of these are chests, we're probably at the right place
 	if
-			(frontCheck and safeBlockTypes[frontData.name])
-			or (rightCheck and safeBlockTypes[rightData.name])
-			or (leftCheck and safeBlockTypes[leftData.name])
-			or (upCheck and safeBlockTypes[upData.name])
+		(frontCheck and safeBlockTypes[frontData.name])
+		or (rightCheck and safeBlockTypes[rightData.name])
+		or (leftCheck and safeBlockTypes[leftData.name])
+		or (upCheck and safeBlockTypes[upData.name])
 	then
 		return true
 	end
